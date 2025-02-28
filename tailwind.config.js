@@ -6,9 +6,11 @@ export default {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
+        './resources/**/*.blade.php',
+        "./resources/css/**/*.css",
+        './resources/**/*.vue',
+        './resources/**/*.js',
     ],
-
     theme: {
         extend: {
             fontFamily: {
@@ -16,6 +18,13 @@ export default {
             },
         },
     },
-
-    plugins: [forms],
+    daisyui: {
+        // https://daisyui.com/docs/themes/
+        themes: ["bumblebee"],
+        utils: true,
+        base: true,
+    },
+    plugins: [
+        require('daisyui'),
+    ],
 };
