@@ -12,30 +12,16 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    protected $table = 'users';
-
-    // Define primary key as a not incrementing string
-    // (PK is the Auth0 user_id)
-    protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    public $timestamps = true;
-
-    // Assignable / Mass-Assignable fields
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
-        'id',
-        'email', // Unique constraint
-        'email_verified',
         'name',
-        'setting_timezone',
-        'setting_weight_unit',
-        'setting_distance_unit',
+        'email',
         'password',
-        'created_at',
-        'updated_at',
     ];
-
 
     /**
      * The attributes that should be hidden for serialization.
