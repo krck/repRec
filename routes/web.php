@@ -7,22 +7,10 @@ Route::get('/', function () {
     return view('training-week');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
 // Admin Routes
 Route::controller(LogController::class)->group(function () {
     Route::get('/admin-logs/{filterType}', 'index');
 });
-
-
 Route::get('/admin-options', function () {
     return view('admin-options');
 });
@@ -50,8 +38,10 @@ Route::get('/training-progress', function () {
 });
 
 // User Routes
-Route::get('/user-settings', function () {
-    return view('user-settings');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/user-info', function () {
     return view('user-info');

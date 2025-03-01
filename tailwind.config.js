@@ -20,7 +20,7 @@ export default {
     },
     daisyui: {
         // https://daisyui.com/docs/themes/
-        themes: ["bumblebee"],
+        themes: ["bumblebee", "halloween"],
         utils: true,
         base: true,
     },

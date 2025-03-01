@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" data-theme="cupcake">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" data-theme="bumblebee">
 
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <style></style>
 
     <!-- Scripts -->
     @vite(entrypoints: ['resources/css/app.css', 'resources/js/app.js'])
@@ -39,11 +38,14 @@
             <!-- Side Nav Links -->
             <label for="sidenav-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                @auth
+                    <p class="text-xs float text-center">Hallo {{ Auth::user()->name }}</p>
+                @endauth
                 <li><x-nav-link href="/">Home</x-nav-link></li>
                 <div class="divider divider-neutral"></div>
                 <li><x-nav-link href="/user-info">User Info</x-nav-link></li>
-                <li><x-nav-link href="/user-settings">User Settings</x-nav-link></li>
                 <li><x-nav-link href="/user-howto">User HowTo</x-nav-link></li>
+                <li><x-nav-link href="/profile">User Profile</x-nav-link></li>
                 <div class="divider divider-neutral"></div>
                 <li>
                     <details open>
@@ -78,10 +80,16 @@
                 <div class="flex justify-center items-center">
                     <div>
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="btn btn-accent">
-                                Dashboard
-                            </a>
+                            <!-- Logout Button -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a class="btn btn-accent" :href="route('logout')"
+                                    onclick="event.preventDefault();  this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </a>
+                            </form>
                         @else
+                            <!-- Login / Register Button -->
                             <a href="{{ route('login') }}" class="btn btn-accent">
                                 Log in
                             </a>
