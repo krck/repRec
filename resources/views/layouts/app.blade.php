@@ -29,8 +29,7 @@
         <input id="sidenav-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <!-- Main Content - Display layout-view content here -->
-            <!-- {{ $slot }} is equivalent to: php echo $slot -->
-            <div>
+            <div class="p-2">
                 {{ $slot }}
             </div>
         </div>

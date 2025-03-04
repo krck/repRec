@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,7 +10,7 @@ Route::get('/', function () {
 
 // Admin Routes
 Route::controller(LogController::class)->group(function () {
-    Route::get('/admin-logs/{filterType}', 'index');
+    Route::get('/admin-logs/{filterType}', 'index')->name('admin.logs');
 });
 Route::get('/admin-options', function () {
     return view('admin-options');
