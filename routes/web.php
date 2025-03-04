@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserRoleController;
 
 Route::get('/', function () {
     return view('training-week');
@@ -15,8 +16,8 @@ Route::controller(LogController::class)->group(function () {
 Route::get('/admin-options', function () {
     return view('admin-options');
 });
-Route::get('/admin-userroles', function () {
-    return view('admin-userroles');
+Route::controller(UserRoleController::class)->group(function () {
+    Route::get('/admin-userroles', 'index')->name('admin.userroles');
 });
 
 // Planning Routes

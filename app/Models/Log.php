@@ -13,6 +13,9 @@ class Log extends Model
     protected $table = 'logs'; // Name of the table
 
     protected $primaryKey = 'id'; // Primary key
+    public $incrementing = true;
+    public $timestamps = false; // Disable default timestamps
+
     protected $fillable = [
         'log_level',
         'timestamp',
@@ -22,5 +25,5 @@ class Log extends Model
         'source',
         'user_id'
     ];
-    public $timestamps = false; // Disable default timestamps
+
 }
