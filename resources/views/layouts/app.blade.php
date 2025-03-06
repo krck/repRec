@@ -8,18 +8,15 @@
 
     <title>RepRec</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
+    <!-- Fonts, Icons, Styles, etc. -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @vite(entrypoints: ['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="h-full">
+<body class="h-full min-h-screen">
     <!-- Main Navbar -->
-    <div class="navbar bg-neutral text-neutral-content flex justify-between items-center">
+    <div class="navbar sticky top-0 z-50 bg-neutral text-neutral-content flex justify-between items-center"
+        style="height: 50px !important; min-height: 40px !important;">
         <h1 class="text-lg font-bold">RepRec</h1>
         <h2 class="text-lg font-bold">{{ $heading }}</h2>
         <label for="sidenav-drawer" class="btn btn-square btn-ghost drawer-button">☰</label>
@@ -29,7 +26,7 @@
         <input id="sidenav-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <!-- Main Content - Display layout-view content here -->
-            <div class="p-2">
+            <div class="p-4">
                 {{ $slot }}
             </div>
         </div>
@@ -70,7 +67,7 @@
                         <summary>Administration</summary>
                         <ul>
                             <li><x-nav-link href="/admin-logs/2">Admin Logs</x-nav-link></li>
-                            <li><x-nav-link href="/admin-options">Admin Options</x-nav-link></li>
+                            <li><x-nav-link href="/admin-selections">Admin Selections</x-nav-link></li>
                             <li><x-nav-link href="/admin-userroles">Admin User-Roles</x-nav-link></li>
                         </ul>
                     </details>

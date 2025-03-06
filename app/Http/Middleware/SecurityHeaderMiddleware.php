@@ -68,16 +68,17 @@ class SecurityHeaderMiddleware
                 // DEV: Might allow 'unsafe-inline' on script, style, etc.
                 'Content-Security-Policy' => trim(
                     "default-src 'self'; " .
-                        "script-src 'self'; " .
-                        "style-src 'self' 'unsafe-inline'; " .
-                        "object-src 'none'; " .
-                        "frame-ancestors 'none'; "
+                    "script-src 'self'; " .
+                    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
+                    "font-src 'self' https://fonts.gstatic.com; " .
+                    "object-src 'none'; " .
+                    "frame-ancestors 'none'; "
                 ),
                 // Cache control (prevent browsers from storing data)
                 'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
                 'Pragma' => 'no-cache',
             ],
-            // Production ENV only Headers
+                // Production ENV only Headers
             (app()->environment('production') ? [
                 // HSTS (Forces HTTPS)
                 'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains; preload',

@@ -11,7 +11,7 @@ class StoreExerciseCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreExerciseCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'json_template' => 'required|max:1000|json',
+            'description' => 'required|max:500',
         ];
     }
 }
