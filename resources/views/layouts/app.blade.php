@@ -26,7 +26,7 @@
         <input id="sidenav-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <!-- Main Content - Display layout-view content here -->
-            <div class="p-4">
+            <div class="flex flex-col h-full p-4">
                 {{ $slot }}
             </div>
         </div>
@@ -100,6 +100,22 @@
             </ul>
         </div>
     </div>
+
+    <!-- --------------------------------------------------------------------------------
+     --------------------------- GLOBAL JAVASCRIPT FUNCTIONS ----------------------------
+     -------------------------------------------------------------------------------- -->
+    <script>
+        // Component: x-dlg-confirm-delete
+        // Function: Call the modal delete dialog with a dynamic delete route
+        function openDeleteModal(deleteRoute) {
+            const deleteForm = document.getElementById('delete-modal-form');
+            deleteForm.action = deleteRoute;
+
+            // Show the modal
+            const modal = document.getElementById('delete-modal');
+            modal.showModal();
+        }
+    </script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@ class StoreExerciseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class StoreExerciseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'exercise_category_id' => 'required|integer',
+            'name' => 'required|max:255',
+            'primary_muscles' => 'required|max:255',
+            'secondary_muscles' => 'nullable|max:255',
+            'mechanic' => 'required|max:255',
+            'level' => 'required|max:255',
+            'force' => 'required|max:255',
+            'equipment' => 'required|max:255',
+            'instructions' => 'nullable',
         ];
     }
 }

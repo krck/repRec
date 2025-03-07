@@ -57,11 +57,12 @@ class ExerciseCategoryController extends Controller
     }
 
     /**
-     * DELETE /exercise-category/{exerciseCategory}
+     * DELETE /exercise-category/{id}
      */
-    public function destroy(ExerciseCategory $exerciseCategory)
+    public function destroy($id)
     {
         // Delete the exercise category
+        $exerciseCategory = ExerciseCategory::find($id);
         $exerciseCategory->delete();
         return redirect()->route('exercise-category.index');
     }
