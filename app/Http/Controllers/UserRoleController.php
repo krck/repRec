@@ -19,7 +19,7 @@ class UserRoleController extends Controller
             ->leftJoin('user_roles', 'users.id', '=', 'user_roles.user_id')
             ->leftJoin('roles', 'roles.id', '=', 'user_roles.role_id')
             ->orderByDesc('users.name')
-            ->paginate(10);
+            ->paginate(perPage: 15);
 
         // Return only incudes specific columns of the paginated result
         return view('admin-userroles', data: ['userRoles' => $userRoles]);

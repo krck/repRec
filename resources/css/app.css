@@ -2,7 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Table Styles */
+
+/*
+ * ----------------------------------------------------------
+ * ----- GLOBAL SLOT Styles  (Blade template {{ slot }} -----
+ * ----------------------------------------------------------
+ */
+
+/* Slot Container with a hight of: Full-Screen - NavBar (50px) */
+.slot-container {
+    height: calc(100vh - 50px) !important;
+    padding: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Slot Header: This is the header part, that is always visible */
+.slot-header {
+    height: auto;
+    flex-shrink: 0;
+}
+
+/* Slot Content: This is the dynamic part, that scrolls (overflow-y, min-height) */
+.slot-content {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Slot Footer: This is the footer part, that is always visible */
+.slot-footer {
+    height: auto;
+    flex-shrink: 0;
+}
+
+/*
+ * ----------------------------------------------------------
+ * ------------------ GLOBAL TABLE Styles -------------------
+ * ----------------------------------------------------------
+ */
+
 .td-truncate {
     max-width: 150px;
     white-space: nowrap;

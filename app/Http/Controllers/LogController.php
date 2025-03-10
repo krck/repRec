@@ -33,7 +33,7 @@ class LogController extends Controller
         $logs = Log::leftJoin('users', 'logs.user_id', '=', 'users.id')
             ->where('logs.timestamp', '>=', $filterDate)
             ->orderByDesc('logs.timestamp')
-            ->paginate(10, [
+            ->paginate(15, [
                 'logs.timestamp',
                 'log_level as level',
                 'users.name as userName',

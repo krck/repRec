@@ -3,13 +3,17 @@
         Admin Logs
     </x-slot:heading>
 
-    <div>
-        <!-- Filter Buttons -->
+    <!-- Slot Header: Sticks to the top (Filter Buttons) -->
+    <div class="slot-header ">
         <div class="flex justify-center mb-4">
             <a href="{{ route('admin.logs', ['filterType' => 1]) }}" class="btn btn-primary mx-2">Last Hour</a>
             <a href="{{ route('admin.logs', ['filterType' => 2]) }}" class="btn btn-primary mx-2">Last Day</a>
             <a href="{{ route('admin.logs', ['filterType' => 3]) }}" class="btn btn-primary mx-2">Last Week</a>
         </div>
+    </div>
+
+    <!-- Slot Content: This is the part that scrolls (Table) -->
+    <div class="slot-content">
         <!-- Logs Table -->
         <div class="overflow-x-auto">
             <table class="table table-xs">
@@ -37,8 +41,11 @@
                 </tbody>
             </table>
         </div>
-        <!-- Pagination Buttons -->
-        <div class="mx-4 my-2">
+    </div>
+
+    <!-- Slot Footer: Sticks to the bottom (with default Pagination-Buttons) -->
+    <div class="slot-footer">
+        <div class="m-2 px-4">
             {{ $logs->links() }}
         </div>
     </div>

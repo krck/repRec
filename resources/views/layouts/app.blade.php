@@ -15,7 +15,7 @@
 
 <body class="h-full min-h-screen">
     <!-- Main Navbar -->
-    <div class="navbar sticky top-0 z-50 bg-neutral text-neutral-content flex justify-between items-center"
+    <div class="navbar sticky top-0 z-40 bg-neutral text-neutral-content flex justify-between items-center"
         style="height: 50px !important; min-height: 40px !important;">
         <h1 class="text-lg font-bold">RepRec</h1>
         <h2 class="text-lg font-bold">{{ $heading }}</h2>
@@ -26,16 +26,18 @@
         <input id="sidenav-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <!-- Main Content - Display layout-view content here -->
-            <div class="flex flex-col h-full p-4">
+            <div class="slot-container relative">
                 {{ $slot }}
             </div>
         </div>
-        <div class="drawer-side">
+        <div class="drawer-side z-50">
             <!-- Side Nav Links -->
             <label for="sidenav-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                 @auth
-                    <p class="text-xs float text-center">Hallo {{ Auth::user()->name }}</p>
+                    <p class="text-xs float text-center">Hello {{ Auth::user()->name }}</p>
+                @else
+                    <p class="text-xs float text-center">Hello Guest</p>
                 @endauth
                 <li><x-nav-link href="/">Home</x-nav-link></li>
                 <div class="divider divider-neutral"></div>
@@ -54,7 +56,7 @@
                     </details>
                 </li>
                 <li>
-                    <details closed>
+                    <details open>
                         <summary>Planning</summary>
                         <ul>
                             <li><x-nav-link href="/plan-workout">Plan Workouts</x-nav-link></li>

@@ -21,7 +21,7 @@ return new class extends Migration {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('exercise_category_id');
-            $table->foreign('exercise_category_id')->references('id')->on('exercise_categories')->onDelete('cascade');
+            $table->foreign('exercise_category_id')->references('id')->on('exercise_categories')->onDelete('restrict');
             $table->string('name');
             $table->string('primary_muscles');
             $table->string('secondary_muscles')->nullable();
