@@ -64,16 +64,19 @@
                         </ul>
                     </details>
                 </li>
-                <li>
-                    <details closed>
-                        <summary>Administration</summary>
-                        <ul>
-                            <li><x-nav-link href="/admin-logs/2">Admin Logs</x-nav-link></li>
-                            <li><x-nav-link href="/admin-selections">Admin Selections</x-nav-link></li>
-                            <li><x-nav-link href="/admin-userroles">Admin User-Roles</x-nav-link></li>
-                        </ul>
-                    </details>
-                </li>
+                <!-- GATE Authorization: Run 'isAdmin' logic -->
+                @can('isAdmin')
+                    <li>
+                        <details closed>
+                            <summary>Administration</summary>
+                            <ul>
+                                <li><x-nav-link href="/admin-logs/2">Admin Logs</x-nav-link></li>
+                                <li><x-nav-link href="/admin-userroles">Admin User-Roles</x-nav-link></li>
+                                <li><x-nav-link href="/admin-selections">Admin Selections</x-nav-link></li>
+                            </ul>
+                        </details>
+                    </li>
+                @endcan
                 <div class="divider divider-neutral"></div>
                 <div class="flex justify-center items-center">
                     <div>
