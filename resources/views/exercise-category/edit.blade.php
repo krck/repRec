@@ -23,7 +23,7 @@
 
     <!-- Slot Footer: Sticks to the bottom (with Cancel and Update button) -->
     <div class="slot-footer">
-        <div class="w-full flex justify-between items-center m-2 px-4">
+        <div class="flex justify-between items-center m-2 px-4">
             <a href="{{ route('exercise-category.index') }}" class="btn w-24 btn-soft btn-accent">Cancel</a>
             <button type="submit" form="editExerciseCategoryForm" class="btn w-24 btn-primary">Update</button>
         </div>

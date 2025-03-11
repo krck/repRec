@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\PlanWorkoutExerciseController;
 use App\Http\Middleware\RoleAccessMiddleware as Roles;
 use App\Http\Controllers\ExerciseCategoryController;
 use App\Http\Controllers\AdminSelectionController;
+use App\Http\Controllers\PlanWorkoutController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\ProfileController;
@@ -47,13 +49,34 @@ Route::middleware(['auth', Roles::class . ':admin'])->group(function () {
     });
 });
 
-// Planning Routes
-Route::get('/plan-share', function () {
-    return view('plan-share');
+// --------------------------------------------------------------------------
+// ------------ PLANNER ROUTES  (require AUTH and ROLE PLANNER) -------------
+// --------------------------------------------------------------------------
+Route::middleware(['auth', Roles::class . ':planner'])->group(function () {
+    // Plan Workouts
+    Route::controller(PlanWorkoutController::class)->group(function () {
+        Route::get('/plan-workout', 'index')->name('plan-workout.index');
+        Route::get('/plan-workout/create', 'create')->name('plan-workout.create');
+        Route::post('/plan-workout', 'store')->name('plan-workout.store');
+        Route::get('/plan-workout/{planWorkout}/edit', 'edit')->name('plan-workout.edit');
+        Route::patch('/plan-workout/{planWorkout}', 'update')->name('plan-workout.update');
+        Route::delete('/plan-workout/{id}', 'destroy')->name('plan-workout.destroy');
+    });
+    // Plan Workout Exercises
+    Route::controller(PlanWorkoutExerciseController::class)->group(function () {
+        Route::get('/plan-workout-exercise/{planWorkoutId}', 'index')->name('plan-workout-exercise.index');
+        Route::get('/plan-workout-exercise/create/{planWorkoutId}', 'create')->name('plan-workout-exercise.create');
+        Route::post('/plan-workout-exercise', 'store')->name('plan-workout-exercise.store');
+        // Route::get('/plan-workout-exercise/{planWorkoutExercise}/edit', 'edit')->name('plan-workout-exercise.edit');
+        // Route::patch('/plan-workout-exercise/{planWorkoutExercise}', 'update')->name('plan-workout-exercise.update');
+        // Route::delete('/plan-workout-exercise/{id}', 'destroy')->name('plan-workout-exercise.destroy');
+    });
+    // Plan Sharing
+    Route::get('/plan-share', function () {
+        return view('plan-share');
+    });
 });
-Route::get('/plan-workout', function () {
-    return view('plan-workout');
-});
+
 
 // Training Routes
 Route::get('/training-week', function () {

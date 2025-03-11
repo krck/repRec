@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /*
  * ----------------------------------------------------------
  * ----- GLOBAL SLOT Styles  (Blade template {{ slot }} -----

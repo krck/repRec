@@ -55,15 +55,18 @@
                         </ul>
                     </details>
                 </li>
-                <li>
-                    <details open>
-                        <summary>Planning</summary>
-                        <ul>
-                            <li><x-nav-link href="/plan-workout">Plan Workouts</x-nav-link></li>
-                            <li><x-nav-link href="/plan-share">Plan Sharing</x-nav-link></li>
-                        </ul>
-                    </details>
-                </li>
+                <!-- GATE Authorization: Run 'isPlanner' logic -->
+                @can('isPlanner')
+                    <li>
+                        <details open>
+                            <summary>Planning</summary>
+                            <ul>
+                                <li><x-nav-link href="/plan-workout">Plan Workouts</x-nav-link></li>
+                                <li><x-nav-link href="/plan-share">Plan Sharing</x-nav-link></li>
+                            </ul>
+                        </details>
+                    </li>
+                @endcan
                 <!-- GATE Authorization: Run 'isAdmin' logic -->
                 @can('isAdmin')
                     <li>

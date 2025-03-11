@@ -8,7 +8,7 @@
         <table class="w-full table">
             <tbody>
                 @foreach($exerciseCategories as $exerciseCategory)
-                    <tr class="hover:bg-base-300">
+                    <tr class="hover:bg-base-100">
                         <td class="w-[70%]">
                             <div class="my-1">
                                 <div class="font-bold">{{ $exerciseCategory->name }}</div>
@@ -37,7 +37,7 @@
 
     <!-- Slot Footer: Sticks to the bottom (with Back and New button) -->
     <div class="slot-footer">
-        <div class="w-full flex justify-between items-center m-2 px-4">
+        <div class="flex justify-between items-center m-2 px-4">
             <a href="{{ route('admin.selections') }}" class="btn btn-circle">
                 <x-icon img="arrow_back_ios_new" />
             </a>
