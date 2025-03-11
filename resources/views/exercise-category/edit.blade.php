@@ -11,32 +11,13 @@
             @method('PATCH')
 
             <!-- Name -->
-            <fieldset class="fieldset mb-2 p-2">
-                <legend class="fieldset-legend">Name</legend>
-                <input type="text" id="name" name="name" class="input input-accent w-full" placeholder="..."
-                    value="{{ $exerciseCategory->name }}" required />
-                @error('name')
-                    <p class="text-error text-sm">{{ $message }}</p>
-                @enderror
-            </fieldset>
+            <x-form-input-text name="name" label="Name" required :value="$exerciseCategory->name" />
             <!-- JSON Template -->
-            <fieldset class="fieldset mb-2 p-2">
-                <legend class="fieldset-legend">JSON Template</legend>
-                <textarea id="json_template" name="json_template" class="textarea textarea-accent h-24 w-full"
-                    placeholder="{}" required>{{ $exerciseCategory->json_template }}</textarea>
-                @error('json_template')
-                    <p class="text-error text-sm">{{ $message }}</p>
-                @enderror
-            </fieldset>
+            <x-form-input-textarea name="json_template" label="JSON Template" placeholder="{}" required
+                :value="$exerciseCategory->json_template" />
             <!-- Description -->
-            <fieldset class="fieldset mb-2 p-2">
-                <legend class="fieldset-legend">Description</legend>
-                <textarea id="description" name="description" class="textarea textarea-accent h-24 w-full"
-                    placeholder="..." required>{{ $exerciseCategory->description }}</textarea>
-                @error('description')
-                    <p class="text-error text-sm">{{ $message }}</p>
-                @enderror
-            </fieldset>
+            <x-form-input-textarea name="description" label="Description" required
+                :value="$exerciseCategory->description" />
         </form>
     </div>
 
