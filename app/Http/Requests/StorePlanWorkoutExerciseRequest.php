@@ -11,7 +11,7 @@ class StorePlanWorkoutExerciseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StorePlanWorkoutExerciseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            // user_id is added in the controller
+            // plan_workout_id is added in the controller
+            'exercise_category_id' => 'required|integer',
+            'exercise_id' => 'required|integer',
+            'day_index' => 'required|integer',
+            // day_order is added in the controller
+            'exercise_definition_json' => 'required|json',
         ];
     }
 }

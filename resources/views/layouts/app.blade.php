@@ -35,50 +35,56 @@
             <label for="sidenav-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                 @auth
-                    <p class="text-xs float text-center">Hello {{ Auth::user()->name }}</p>
+                    <p class="text-xs float text-center m-2">Hello {{ Auth::user()->name }}</p>
                 @else
-                    <p class="text-xs float text-center">Hello Guest</p>
+                    <p class="text-xs float text-center m-2">Hello Guest</p>
                 @endauth
                 <li><x-nav-link href="/">Home</x-nav-link></li>
                 <div class="divider divider-neutral"></div>
                 <li><x-nav-link href="/user-info">User Info</x-nav-link></li>
                 <li><x-nav-link href="/user-howto">User HowTo</x-nav-link></li>
                 <li><x-nav-link href="/profile">User Profile</x-nav-link></li>
-                <div class="divider divider-neutral"></div>
-                <li>
-                    <details open>
-                        <summary>Training</summary>
-                        <ul>
-                            <li><x-nav-link href="/training-week">Training Week</x-nav-link></li>
-                            <li><x-nav-link href="/training-year">Training Year</x-nav-link></li>
-                            <li><x-nav-link href="/training-progress">Training Progress</x-nav-link></li>
-                        </ul>
-                    </details>
-                </li>
-                <!-- GATE Authorization: Run 'isPlanner' logic -->
-                @can('isPlanner')
+                <!-- 
+                    GATE AUTHORIZATION: Training, Planning and Admin sections are locked behind the user-role
+                    (Must be authenticated and must have at least the user-role to work with the core systems)
+                -->
+                @can('isUser')
+                    <div class="divider divider-neutral"></div>
                     <li>
                         <details open>
-                            <summary>Planning</summary>
+                            <summary>Training</summary>
                             <ul>
-                                <li><x-nav-link href="/plan-workout">Plan Workouts</x-nav-link></li>
-                                <li><x-nav-link href="/plan-share">Plan Sharing</x-nav-link></li>
+                                <li><x-nav-link href="/training-week">Training Week</x-nav-link></li>
+                                <li><x-nav-link href="/training-year">Training Year</x-nav-link></li>
+                                <li><x-nav-link href="/training-progress">Training Progress</x-nav-link></li>
                             </ul>
                         </details>
                     </li>
-                @endcan
-                <!-- GATE Authorization: Run 'isAdmin' logic -->
-                @can('isAdmin')
-                    <li>
-                        <details closed>
-                            <summary>Administration</summary>
-                            <ul>
-                                <li><x-nav-link href="/admin-logs/2">Admin Logs</x-nav-link></li>
-                                <li><x-nav-link href="/admin-userroles">Admin User-Roles</x-nav-link></li>
-                                <li><x-nav-link href="/admin-selections">Admin Selections</x-nav-link></li>
-                            </ul>
-                        </details>
-                    </li>
+                    <!-- GATE AUTHORIZATION: Planning section is additionally locked behind the planner-role -->
+                    @can('isPlanner')
+                        <li>
+                            <details open>
+                                <summary>Planning</summary>
+                                <ul>
+                                    <li><x-nav-link href="/plan-workout">Plan Workouts</x-nav-link></li>
+                                    <li><x-nav-link href="/plan-share">Plan Sharing</x-nav-link></li>
+                                </ul>
+                            </details>
+                        </li>
+                    @endcan
+                    <!-- GATE AUTHORIZATION: Admin section is additionally locked behind the admin-role -->
+                    @can('isAdmin')
+                        <li>
+                            <details closed>
+                                <summary>Administration</summary>
+                                <ul>
+                                    <li><x-nav-link href="/admin-logs/2">Admin Logs</x-nav-link></li>
+                                    <li><x-nav-link href="/admin-userroles">Admin User-Roles</x-nav-link></li>
+                                    <li><x-nav-link href="/admin-selections">Admin Selections</x-nav-link></li>
+                                </ul>
+                            </details>
+                        </li>
+                    @endcan
                 @endcan
                 <div class="divider divider-neutral"></div>
                 <div class="flex justify-center items-center">
@@ -124,6 +130,11 @@
             modal.showModal();
         }
     </script>
+    <!-- --------------------------------------------------------------------------------
+     ---------------------------- LOCAL JAVASCRIPT FUNCTIONS ----------------------------
+     ------- JavaScript code from child-views added with push / pushOnce goes here ------
+     -------------------------------------------------------------------------------- -->
+    @stack('js_after')
 </body>
 
 </html>

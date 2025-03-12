@@ -11,7 +11,7 @@ class UpdatePlanWorkoutExerciseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdatePlanWorkoutExerciseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'exercise_category_id' => 'required|integer',
+            'exercise_id' => 'required|integer',
+            'day_index' => 'required|integer',
+            'exercise_definition_json' => 'required|json',
         ];
     }
 }

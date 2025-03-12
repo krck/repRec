@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot:heading>
-        Plan Workout Exercise
+        Edit Plan Workout Exercise
     </x-slot:heading>
 
     @pushOnce('js_after')
@@ -27,11 +27,12 @@
         </script>
     @endPushOnce
 
-    <!-- Slot Content: This is the part that scrolls (Create From) -->
+    <!-- Slot Content: This is the part that scrolls (Edit From) -->
     <div class="slot-content">
-        <form id="createPlanWorkoutExerciseForm" method="POST"
-            action="{{ route('plan-workout-exercise.store', $planWorkout->id) }}">
+        <form id="editPlanWorkoutExerciseForm" method="POST"
+            action="{{ route('plan-workout-exercise.update', $planWorkoutExercise) }}">
             @csrf
+            @method('PATCH')
 
             @php
                 // Hardcoded dropdown - array with "id" and "name"
@@ -47,14 +48,16 @@
             @endphp
 
             <!-- Exercise Category Select -->
-            <x-form-input-select name="exercise_category_id" label="Exercise Category" :options="$exerciseCategories" />
+            <x-form-input-select name="exercise_category_id" label="Exercise Category" :options="$exerciseCategories"
+                :value="$planWorkoutExercise->exercise_category_id" />
             <!-- Exercise Select (Filtered) 
                  Not using component because of the custom JavaScript to show/hide dropdown options, based on exercise_category_id -->
             <fieldset class="fieldset mb-2 p-2">
                 <legend class="fieldset-legend">Exercise</legend>
                 <select class="select select-accent w-full" id="exercise_id" name="exercise_id">
                     @foreach ($exercises as $exercise)
-                        <option value="{{ $exercise->id }}" filter-category="{{ $exercise->exercise_category_id }}">
+                        <option value="{{ $exercise->id }}" filter-category="{{ $exercise->exercise_category_id }}"
+                            {{ $planWorkoutExercise->exercise_id == $exercise->id ? 'selected' : '' }} >
                             {{ $exercise->name }}
                         </option>
                     @endforeach
@@ -64,18 +67,20 @@
                 @enderror
             </fieldset>
             <!-- Weekday -->
-            <x-form-input-select name="day_index" label="Weekday" :options="$weekdays" />
+            <x-form-input-select name="day_index" label="Weekday" :options="$weekdays"
+                :value="$planWorkoutExercise->day_index" />
             <!-- Description -->
-            <x-form-input-textarea name="exercise_definition_json" label="Exercise Definition" placeholder="{}" />
+            <x-form-input-textarea name="exercise_definition_json" label="Exercise Definition" placeholder="{}"
+                :value="$planWorkoutExercise->exercise_definition_json" />
         </form>
     </div>
 
-    <!-- Slot Footer: Sticks to the bottom (with Cancel and Save button) -->
+    <!-- Slot Footer: Sticks to the bottom (with Cancel and Update button) -->
     <div class="slot-footer">
         <div class="flex justify-between items-center m-2 px-4">
-            <a href="{{ route('plan-workout-exercise.index', $planWorkout->id) }}"
+            <a href="{{ route('plan-workout-exercise.index', $planWorkoutExercise->plan_workout_id) }}"
                 class="btn w-24 btn-soft btn-accent">Cancel</a>
-            <button type="submit" form="createPlanWorkoutExerciseForm" class="btn w-24 btn-primary">Save</button>
+            <button type="submit" form="editPlanWorkoutExerciseForm" class="btn w-24 btn-primary">Update</button>
         </div>
     </div>
 

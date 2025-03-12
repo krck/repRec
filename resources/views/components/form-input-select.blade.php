@@ -22,8 +22,8 @@
         @foreach ($options as $option)
             @php
                 // If options are associative (hardcoded array), use key as value and text as label
-                $optionValue = is_array($option) ? $option['value'] : (is_object($option) ? $option->$key : $option);
-                $optionText = is_array($option) ? $option['text'] : (is_object($option) ? $option->$text : $option);
+                $optionValue = is_array($option) ? $option[$key] : (is_object($option) ? $option->$key : $option);
+                $optionText = is_array($option) ? $option[$text] : (is_object($option) ? $option->$text : $option);
             @endphp
             <option value="{{ $optionValue }}" {{ old($name, $value) == $optionValue ? 'selected' : '' }}>
                 {{ $optionText }}
