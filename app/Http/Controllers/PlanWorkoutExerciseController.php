@@ -6,6 +6,7 @@ use App\Http\Requests\UpdatePlanWorkoutExerciseRequest;
 use App\Http\Requests\StorePlanWorkoutExerciseRequest;
 use App\Models\PlanWorkoutExercise;
 use App\Models\ExerciseCategory;
+use Illuminate\Http\Request;
 use App\Models\PlanWorkout;
 use App\Models\Exercise;
 
@@ -93,6 +94,21 @@ class PlanWorkoutExerciseController extends Controller
         // Update the validated plan workout
         $planWorkoutExercise->update($request->validated());
         return redirect()->route('plan-workout-exercise.index', $planWorkoutExercise->plan_workout_id);
+    }
+
+    public function saveOrderOnClose(Request $request)
+    {
+        // Update all day_index and day_order values, when leaving the view
+        $exercises = $request->input('exercises');
+        foreach ($exercises as $exercise) {
+            PlanWorkoutExercise::where('id', $exercise['id'])
+                ->update([
+                    'day_index' => $exercise['day_index'],
+                    'day_order' => $exercise['day_order'],
+                ]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     /**

@@ -66,6 +66,7 @@ Route::middleware(['auth', Roles::class . ':planner'])->group(function () {
     Route::controller(PlanWorkoutExerciseController::class)->group(function () {
         Route::get('/plan-workout-exercise/{planWorkoutId}', 'index')->name('plan-workout-exercise.index');
         Route::get('/plan-workout-exercise/create/{planWorkoutId}', 'create')->name('plan-workout-exercise.create');
+        Route::post('/plan-workout-exercise/order', 'saveOrderOnClose')->name('plan-workout-exercise.saveOrderOnClose');
         Route::post('/plan-workout-exercise/{planWorkoutId}', 'store')->name('plan-workout-exercise.store');
         Route::get('/plan-workout-exercise/{planWorkoutExercise}/edit', 'edit')->name('plan-workout-exercise.edit');
         Route::patch('/plan-workout-exercise/{planWorkoutExercise}', 'update')->name('plan-workout-exercise.update');
