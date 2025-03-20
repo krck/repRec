@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PlanWorkoutExerciseController;
+use App\Http\Controllers\TrainingWorkoutController;
 use App\Http\Middleware\RoleAccessMiddleware as Roles;
 use App\Http\Controllers\ExerciseCategoryController;
 use App\Http\Controllers\AdminSelectionController;
@@ -78,16 +79,23 @@ Route::middleware(['auth', Roles::class . ':planner'])->group(function () {
     });
 });
 
+// --------------------------------------------------------------------------
+// ------------- TRAINING ROUTES  (require AUTH and ROLE USER) --------------
+// --------------------------------------------------------------------------
+Route::middleware(['auth', Roles::class . ':user'])->group(function () {
+    Route::controller(TrainingWorkoutController::class)->group(function () {
+        Route::get('/training-year', 'index')->name('training-year.index');
+        Route::get('/training-year/create', 'create')->name('training-year.create');
+        Route::post('/training-year', 'store')->name('training-year.store');
+        Route::delete('/training-year/{id}', 'destroy')->name('training-year.destroy');
+    });
 
-// Training Routes
-Route::get('/training-week', function () {
-    return view('training-week');
-});
-Route::get('/training-year', function () {
-    return view('training-year');
-});
-Route::get('/training-progress', function () {
-    return view('training-progress');
+    Route::get('/training-week', function () {
+        return view('training-week');
+    });
+    Route::get('/training-progress', function () {
+        return view('training-progress');
+    });
 });
 
 // User Routes
