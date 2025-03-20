@@ -1,15 +1,47 @@
 <!-- Component Args -->
-@props(['name'])
+@props([
+    'name',
+    'value' => null,
+])
 
 @pushOnce('js_after')
     <script>
-        function weightliftingInput() {
+        function weightliftingInput(initialData = null) {
             return {
+                fixedType: 'reps',
+                warmupSets: [],
+                feederSets: [],
+                workingSets: [],
+                intensitySets: [],
+                // Result string json
+                exerciseDefinitionJson: '',
+                // Array to hold selected tags
+                selectedTags: [],
+                availableTags: [
+                    'Strength',
+                    'Hypertrophy',
+                    'Endurance',
+                    'md:Activation',
+                    'md:Explosion',
+                    'md:Pump',
+                    'md:Stretch',
+                ],
+
                 // Generate a json result string based on the inputs
                 // - Update called manually on button presses - add/remove
                 // - Update called automatically on input changes - watch
-                exerciseDefinitionJson: '',
                 init() {
+                    // In case its "edit" and there is initial data - prefill the values
+                    if (initialData) {
+                        // If string - parse it, else use the object
+                        var editData = typeof initialData === 'string' ? JSON.parse(initialData) : initialData;
+                        this.fixedType = editData.fixedType || 'reps';
+                        this.warmupSets = editData.warmupSets || [];
+                        this.feederSets = editData.feederSets || [];
+                        this.workingSets = editData.workingSets || [];
+                        this.intensitySets = editData.intensitySets || [];
+                        this.selectedTags = editData.tags || [];
+                    }
                     this.$watch('warmupSets', () => this.updateExerciseDefinitionJson());
                     this.$watch('feederSets', () => this.updateExerciseDefinitionJson());
                     this.$watch('workingSets', () => this.updateExerciseDefinitionJson());
@@ -28,23 +60,6 @@
                         tags: this.selectedTags
                     });
                 },
-
-                fixedType: 'reps',
-                warmupSets: [],
-                feederSets: [],
-                workingSets: [],
-                intensitySets: [],
-                // Array to hold selected tags
-                selectedTags: [],
-                availableTags: [
-                    'Strength',
-                    'Hypertrophy',
-                    'Endurance',
-                    'md:Activation',
-                    'md:Explosion',
-                    'md:Pump',
-                    'md:Stretch',
-                ],
 
                 // Function to toggle tags (add or remove)
                 toggleTag(tag) {
@@ -135,9 +150,9 @@
 @endPushOnce
 
 <div class="bg-base-100 shadow-md rounded-md m-1 p-2 border-2 border-solid border-gray-300">
-    <div x-data="weightliftingInput()" x-init="init()" class="flex w-full flex-col">
+    <div x-data="weightliftingInput({{ $value ? $value : 'null' }})" x-init="init()" class="flex w-full flex-col">
         <!-- Hidden Input to store JSON data -->
-        <input type="hidden" id="{{ $name }}" name="{{ $name }}" required x-model="exerciseDefinitionJson">
+        <input type="hidden" id="{{ $name }}" name="{{ $name }}" required  value="{{ old($name, $value) }}" x-model="exerciseDefinitionJson">
         <!-- DEBUG output the result JSON -->
         <!-- <p x-text="exerciseDefinitionJson" class="text-xs text-gray-500"></p> -->
         @error($name)
