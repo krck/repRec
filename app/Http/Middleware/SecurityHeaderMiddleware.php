@@ -68,7 +68,7 @@ class SecurityHeaderMiddleware
                 // DEV: Might allow 'unsafe-inline' on script, style, etc.
                 'Content-Security-Policy' => trim(
                     "default-src 'self'; " .
-                    "script-src 'self';" .
+                    "script-src 'self' 'unsafe-eval';" .
                     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
                     "font-src 'self' https://fonts.gstatic.com; " .
                     "object-src 'none'; " .

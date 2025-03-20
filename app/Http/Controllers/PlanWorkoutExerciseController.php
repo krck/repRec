@@ -71,7 +71,6 @@ class PlanWorkoutExerciseController extends Controller
         return redirect()->route('plan-workout-exercise.index', $planWorkoutId);
     }
 
-
     /**
      * GET /plan-workout-exercise/{planWorkoutExercise}/edit
      * Return a view that with all input fields to edit an existing plan workout exercise
@@ -96,6 +95,10 @@ class PlanWorkoutExerciseController extends Controller
         return redirect()->route('plan-workout-exercise.index', $planWorkoutExercise->plan_workout_id);
     }
 
+    /*
+     * POST /plan-workout-exercise/order
+     * Update the order of the exercises, after a drag-and-drop event 
+     */
     public function saveOrderOnClose(Request $request)
     {
         // Update all day_index and day_order values, when leaving the view

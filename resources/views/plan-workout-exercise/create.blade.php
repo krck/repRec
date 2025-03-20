@@ -29,7 +29,7 @@
 
     <!-- Slot Content: This is the part that scrolls (Create From) -->
     <div class="slot-content">
-        <form id="createPlanWorkoutExerciseForm" method="POST"
+        <form id="createPlanWorkoutExerciseForm" method="POST" x-data="{ selectedCategory: null }"
             action="{{ route('plan-workout-exercise.store', $planWorkout->id) }}">
             @csrf
 
@@ -47,11 +47,11 @@
             @endphp
 
             <!-- Exercise Category Select -->
-            <x-form-input-select name="exercise_category_id" label="Exercise Category" :options="$exerciseCategories" />
+            <x-form-input-select name="exercise_category_id" :options="$exerciseCategories"
+                x-model="selectedCategory" />
             <!-- Exercise Select (Filtered) 
                  Not using component because of the custom JavaScript to show/hide dropdown options, based on exercise_category_id -->
-            <fieldset class="fieldset mb-2 p-2">
-                <legend class="fieldset-legend">Exercise</legend>
+            <fieldset class="fieldset mb-1 p-1">
                 <select class="select select-accent w-full" id="exercise_id" name="exercise_id">
                     @foreach ($exercises as $exercise)
                         <option value="{{ $exercise->id }}" filter-category="{{ $exercise->exercise_category_id }}">
@@ -64,9 +64,27 @@
                 @enderror
             </fieldset>
             <!-- Weekday -->
-            <x-form-input-select name="day_index" label="Weekday" :options="$weekdays" />
-            <!-- Description -->
-            <x-form-input-textarea name="exercise_definition_json" label="Exercise Definition" placeholder="{}" />
+            <x-form-input-select name="day_index" :options="$weekdays" />
+            <!-- Dynamic Input -->
+            <div class="mt-2">
+                <!-- Default, Weightlifting 1, OlympicLifting 2, Strongman 3 -->
+                <template x-if="(selectedCategory == null || ['1', '2', '3'].includes(selectedCategory))">
+                    <x-exercise-input-weightlifting name="exercise_definition_json" />
+                </template>
+                <!-- Calisthenics 4, Plyometrics 5 -->
+                <template x-if="['4', '5'].includes(selectedCategory)">
+                    <x-exercise-input-bodyweight />
+                </template>
+                <!-- Stretching 6, EnduranceTraining 7 -->
+                <template x-if="['6', '7'].includes(selectedCategory)">
+                    <x-exercise-input-endurance />
+                </template>
+                <!-- PhysicalExercises 8, OtherActivities 9 -->
+                <template
+                    x-if="(selectedCategory != null && !(['1', '2', '3', '4', '5', '6', '7'].includes(selectedCategory)))">
+                    <x-exercise-input-other />
+                </template>
+            </div>
         </form>
     </div>
 

@@ -11,7 +11,7 @@
     'value' => null  // Accept an optional default value
 ])
 
-<fieldset class="fieldset mb-2 p-2">
+<fieldset class="fieldset mb-1 p-1">
     @if ($label)
         <legend class="fieldset-legend">{{ $label }}</legend>
     @endif

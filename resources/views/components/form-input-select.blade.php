@@ -12,7 +12,7 @@
     'text' => 'name'  // Text used for display (for DB collections)
 ])
 
-<fieldset class="fieldset mb-2 p-2">
+<fieldset class="fieldset mb-1 p-1">
     @if ($label)
         <legend class="fieldset-legend">{{ $label }}</legend>
     @endif
