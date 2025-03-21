@@ -73,16 +73,16 @@
                 </template>
                 <!-- Calisthenics 4, Plyometrics 5 -->
                 <template x-if="['4', '5'].includes(selectedCategory)">
-                    <x-exercise-input-bodyweight />
+                    <x-exercise-input-bodyweight name="exercise_definition_json" />
                 </template>
                 <!-- Stretching 6, EnduranceTraining 7 -->
                 <template x-if="['6', '7'].includes(selectedCategory)">
-                    <x-exercise-input-endurance />
+                    <x-exercise-input-endurance name="exercise_definition_json" />
                 </template>
                 <!-- PhysicalExercises 8, OtherActivities 9 -->
                 <template
                     x-if="(selectedCategory != null && !(['1', '2', '3', '4', '5', '6', '7'].includes(selectedCategory)))">
-                    <x-exercise-input-other />
+                    <x-exercise-input-other name="exercise_definition_json" />
                 </template>
             </div>
         </form>

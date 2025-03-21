@@ -28,7 +28,7 @@ class StorePlanWorkoutExerciseRequest extends FormRequest
             'exercise_id' => 'required|integer',
             'day_index' => 'required|integer',
             // day_order is added in the controller
-            'exercise_definition_json' => 'required|json',
+            'exercise_definition_json' => 'required|json|max:3000',
         ];
     }
 }

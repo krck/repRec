@@ -29,7 +29,7 @@
 
     <!-- Slot Content: This is the part that scrolls (Edit From) -->
     <div class="slot-content">
-        <form id="editPlanWorkoutExerciseForm" method="POST" x-data="{ selectedCategory: null }"
+        <form id="editPlanWorkoutExerciseForm" method="POST" x-data="{ selectedCategory: '{{ $planWorkoutExercise->exercise_category_id ?? '' }}' }"
             action="{{ route('plan-workout-exercise.update', $planWorkoutExercise) }}">
             @csrf
             @method('PATCH')
@@ -47,13 +47,16 @@
                 ];
             @endphp
 
-            <!-- Exercise Category Select -->
+            <!-- Exercise Category Select
+                 (with hidden input, since field is disabled on Edit) -->
             <x-form-input-select name="exercise_category_id" :options="$exerciseCategories"
-                :value="$planWorkoutExercise->exercise_category_id" x-model="selectedCategory" />
+                :value="$planWorkoutExercise->exercise_category_id" x-model="selectedCategory" disabled />
+            <input type="hidden" name="exercise_category_id" value="{{ $planWorkoutExercise->exercise_category_id }}">
             <!-- Exercise Select (Filtered) 
-                 Not using component because of the custom JavaScript to show/hide dropdown options, based on exercise_category_id -->
+                 Not using component because of the custom JavaScript to show/hide dropdown options, based on exercise_category_id 
+                 (with hidden input, since field is disabled on Edit) -->
             <fieldset class="fieldset mb-1 p-1">
-                <select class="select select-accent w-full" id="exercise_id" name="exercise_id">
+                <select class="select select-accent w-full" id="exercise_id" name="exercise_id" disabled>
                     @foreach ($exercises as $exercise)
                         <option value="{{ $exercise->id }}" filter-category="{{ $exercise->exercise_category_id }}"
                             {{ $planWorkoutExercise->exercise_id == $exercise->id ? 'selected' : '' }} >
@@ -65,6 +68,7 @@
                     <p class="text-error text-sm">{{ $message }}</p>
                 @enderror
             </fieldset>
+            <input type="hidden" name="exercise_id" value="{{ $planWorkoutExercise->exercise_id }}">
             <!-- Weekday -->
             <x-form-input-select name="day_index" :options="$weekdays"
                 :value="$planWorkoutExercise->day_index" />
@@ -77,16 +81,19 @@
                 </template>
                 <!-- Calisthenics 4, Plyometrics 5 -->
                 <template x-if="['4', '5'].includes(selectedCategory)">
-                    <x-exercise-input-bodyweight />
+                    <x-exercise-input-bodyweight name="exercise_definition_json" 
+                    :value="$planWorkoutExercise->exercise_definition_json"/>
                 </template>
                 <!-- Stretching 6, EnduranceTraining 7 -->
                 <template x-if="['6', '7'].includes(selectedCategory)">
-                    <x-exercise-input-endurance />
+                    <x-exercise-input-endurance name="exercise_definition_json" 
+                    :value="$planWorkoutExercise->exercise_definition_json"/>
                 </template>
                 <!-- PhysicalExercises 8, OtherActivities 9 -->
                 <template
                     x-if="(selectedCategory != null && !(['1', '2', '3', '4', '5', '6', '7'].includes(selectedCategory)))">
-                    <x-exercise-input-other />
+                    <x-exercise-input-other name="exercise_definition_json" 
+                    :value="$planWorkoutExercise->exercise_definition_json"/> 
                 </template>
             </div>
         </form>

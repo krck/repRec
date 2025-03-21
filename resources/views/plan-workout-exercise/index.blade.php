@@ -89,7 +89,12 @@
                             <div class="flex justify-between items-center">
                                 <!-- Drag Indicator, Exercise name and Dropdown Menu -->
                                 <x-icon img="drag_indicator" />
-                                <p>{{ $planWorkoutExercise->exercise->name }}</p>
+                                <div class="flex flex-row items-start">
+                                    <p class="text-gray-400 mr-2">
+                                        [{{ App\Common\Enums\EnumExerciseCategory::getAcronymByKey($planWorkoutExercise->exercise->exercise_category_id)  }}]
+                                    </p>
+                                    <p>{{ $planWorkoutExercise->exercise->name }}</p>
+                                </div>
                                 <div class="dropdown dropdown-end">
                                     <div tabindex="0" role="button" class="btn btn-circle"><x-icon img="more_vert" /></div>
                                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-10 w-40 shadow-md">

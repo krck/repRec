@@ -3,9 +3,8 @@
 
 @pushOnce('js_after')
     <script>
-        function weightliftingInput(initialData = null) {
+        function bodyweightInput(initialData = null) {
             return {
-                fixedType: 'reps',
                 warmupSets: [],
                 feederSets: [],
                 workingSets: [],
@@ -14,7 +13,7 @@
                 // Result string json
                 exerciseDefinitionJson: '',
                 // Hardcoded Tags
-                availableTags: ['Strength', 'Hypertrophy', 'Endurance', 'md:Activation', 'md:Explosion', 'md:Pump', 'md:Stretch',],
+                availableTags: ['Strength', 'Hypertrophy', 'Endurance',],
 
                 // Generate a json result string based on the inputs
                 // - Update called manually on button presses - add/remove
@@ -24,7 +23,6 @@
                     if (initialData) {
                         // If string - parse it, else use the object
                         let editData = typeof initialData === 'string' ? JSON.parse(initialData) : initialData;
-                        this.fixedType = editData.fixedType || 'reps';
                         this.warmupSets = editData.warmupSets || [];
                         this.feederSets = editData.feederSets || [];
                         this.workingSets = editData.workingSets || [];
@@ -36,7 +34,6 @@
                     this.$watch('workingSets', () => this.updateExerciseDefinitionJson());
                     this.$watch('intensitySets', () => this.updateExerciseDefinitionJson());
                     this.$watch('selectedTags', () => this.updateExerciseDefinitionJson());
-                    this.$watch('fixedType', () => this.updateExerciseDefinitionJson());
                     // Generate an empty string on init
                     this.updateExerciseDefinitionJson();
                 },
@@ -131,15 +128,14 @@
                 removeIntensitySet(index) {
                     this.intensitySets.splice(index, 1);
                     this.updateExerciseDefinitionJson();
-                },
-
+                }
             };
         }
     </script>
 @endPushOnce
 
 <div class="bg-base-100 shadow-md rounded-md m-1 p-2 border-2 border-solid border-gray-300">
-    <div x-data="weightliftingInput({{ $value ? $value : 'null' }})" x-init="init()" class="flex w-full flex-col">
+    <div x-data="bodyweightInput({{ $value ? $value : 'null' }})" x-init="init()" class="flex w-full flex-col">
         <!-- Hidden Input to store JSON data -->
         <input type="hidden" id="{{ $name }}" name="{{ $name }}" required value="{{ old($name, $value) }}"
             x-model="exerciseDefinitionJson">
@@ -149,29 +145,13 @@
             <p class="text-error text-center text-sm">{{ $message }}</p>
         @enderror
 
-        <!-- Fixed Reps / Fixed Weight Toggle -->
-        <div class="mb-2 flex justify-center">
-            <div class="flex space-x-4 mt-2">
-                <label class="flex items-center space-x-2 cursor-pointer">
-                    <input type="radio" x-model="fixedType" value="reps" class="radio radio-primary">
-                    <span>Fixed Reps</span>
-                </label>
-                <label class="flex items-center space-x-2 cursor-pointer">
-                    <input type="radio" x-model="fixedType" value="weight" class="radio radio-primary">
-                    <span>Fixed Weight</span>
-                </label>
-            </div>
-        </div>
-
         <!-- Warmup Sets -->
         <div class="divider" style="margin: 4px !important;">Warmup</div>
         <div class="mb-2">
             <template x-for="(warmupSet, index) in warmupSets" :key="index">
                 <div class="flex items-center mt-2">
                     <input type="number" class="input input-bordered w-24" placeholder="Reps" x-model="warmupSet.reps"
-                        x-bind:disabled="fixedType === 'weight'" min="0" max="100">
-                    <input type="number" class="input input-bordered w-24 ml-1" placeholder="Weight"
-                        x-model="warmupSet.weight" x-bind:disabled="fixedType === 'reps'" min="0" max="1000">
+                        min="0" max="100">
                     <select x-model="warmupSet.rpe_rir" class="select w-24 ml-4 select-bordered">
                         <option value="rpe">RPE</option>
                         <option value="rir">RiR</option>
@@ -193,9 +173,7 @@
             <template x-for="(feederSet, index) in feederSets" :key="index">
                 <div class="flex items-center mt-2">
                     <input type="number" class="input input-bordered w-24" placeholder="Reps" x-model="feederSet.reps"
-                        x-bind:disabled="fixedType === 'weight'" min="0" max="100">
-                    <input type="number" class="input input-bordered w-24 ml-1" placeholder="Weight"
-                        x-model="feederSet.weight" x-bind:disabled="fixedType === 'reps'" min="0" max="1000">
+                        min="0" max="100">
                     <select x-model="feederSet.rpe_rir" class="select w-24 ml-4 select-bordered">
                         <option value="rpe">RPE</option>
                         <option value="rir">RiR</option>
@@ -217,9 +195,7 @@
             <template x-for="(workingSet, index) in workingSets" :key="index">
                 <div class="flex items-center mt-2">
                     <input type="number" class="input input-bordered w-24" placeholder="Reps" x-model="workingSet.reps"
-                        x-bind:disabled="fixedType === 'weight'" min="0" max="100">
-                    <input type="number" class="input input-bordered w-24 ml-1" placeholder="Weight"
-                        x-model="workingSet.weight" x-bind:disabled="fixedType === 'reps'" min="0" max="1000">
+                        min="0" max="100">
                     <select x-model="workingSet.rpe_rir" class="select w-24 ml-4 select-bordered">
                         <option value="rpe">RPE</option>
                         <option value="rir">RiR</option>
@@ -272,5 +248,6 @@
                 </template>
             </div>
         </div>
+
     </div>
 </div>

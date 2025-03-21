@@ -25,7 +25,7 @@ class UpdatePlanWorkoutExerciseRequest extends FormRequest
             'exercise_category_id' => 'required|integer',
             'exercise_id' => 'required|integer',
             'day_index' => 'required|integer',
-            'exercise_definition_json' => 'required|json',
+            'exercise_definition_json' => 'required|json|max:3000',
         ];
     }
 }
