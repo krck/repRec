@@ -1,66 +1,241 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# repRec
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Table of Contents
 
-## About Laravel
+- [1 About](#1-about)
+- [2 Local Setup](#2-local-setup)
+- [3 Server Setup](#3-server-setup)
+    - [3.1 Firewall](#31-firewall)
+    - [3.2 SSH](#32-ssh)
+        - [3.2.1 SSH Setup](#321-ssh-setup)
+        - [3.2.2 Simple SSH connection](#322-simple-ssh-connection)
+        - [3.2.3 SSH Key setup and connection](#323-ssh-key-setup-and-connection)
+        - [3.2.4 Secure the SSH connection (no more PW login)](#324-secure-the-ssh-connection-no-more-pw-login)
+    - [3.3 HTTPS/SSL Cert](#33-httpsssl-cert)
+    - [3.4 Install all required Tools/Packages](#34-install-all-required-toolspackages)
+    - [3.5 Useful Commands](#35-useful-commands)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 1 About
+...
 
-## Learning Laravel
+# 2 Local Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Laravel 11 application
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# 3 Server Setup
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Setup the hosting environment (Hetzner in this case) on a VPS running Debian 12
+Server IPv4: 188.245.213.112
+Server IPv6: 2a01:4f8:1c1c:d852::/64
 
-## Laravel Sponsors
+Ensure the system is updated and install necessary dependencies:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl zip unzip git nginx
+```
+Critical updates can also be automated
+```bash
+apt install unattended-upgrades`
+dpkg-reconfigure --priority=low unattended-upgrades
+```
 
-### Premium Partners
+## 3.1 Firewall
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Install the ufw (Uncomplicated Firewall) tool
 
-## Contributing
+`apt install ufw -y`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Configure firewall rules for ssh and web-hosting
 
-## Code of Conduct
+`ufw allow 22/tcp      # Allow SSH`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`ufw allow 80/tcp      # Allow HTTP` (optional / only as long as HTTPS/SSL is not configured)
 
-## Security Vulnerabilities
+`ufw allow 443/tcp     # Allow HTTPS`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+`ufw allow 5432/tcp    # Allow PostgreSQL`
 
-## License
+`ufw default deny incoming` (deny ALL incoming that are not specifically allowed - should be default anyway)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Activate and check the status
+
+`ufw enable`
+
+`ufw status verbose`
+
+## 3.2 SSH
+
+### 3.2.1 SSH Setup
+
+Install SSH on the server side (allows the server to accept connections)
+
+`apt install openssh-server`
+
+Install SSH on the client side (allows the client to create connections)
+
+`apt install openssh-client`
+
+Enable SSH services, activate on boot and verify if its running
+
+```bash
+systemctl start ssh
+systemctl enable ssh
+systemctl status ssh
+```
+
+### 3.2.2 Simple SSH connection
+
+Simple ssh connect to the server from the client, with username and password
+
+`ssh login-user@server-ip`
+
+### 3.2.3 SSH Key setup and connection
+
+Create a local ssh key
+
+`ssh-keygen -t rsa -b 4096`
+> Press Enter to save the key in the default location (~/.ssh/id_rsa).
+> Optionally, set a passphrase for additional security.
+
+Copy the public key to the VPS
+
+`ssh-copy-id login-user@server-ip`
+
+Test the connection: This should now work, without requiring a password
+
+`ssh login-user@server-ip`
+
+### 3.2.4 Secure the SSH connection (no more PW login)
+
+Update the Firewall to allow a new port (optional but recommended)
+
+`ufw allow 2222`
+
+Edit the SSH Config File and change these settings
+
+`nano /etc/ssh/sshd_config`
+
+Disable password logins, allow only one user and change the default SSH port (optional but recommended)
+> PasswordAuthentication no
+> AllowUsers login-user
+> Port 2222
+
+Save and close the file (Ctrl+O, Enter, Ctrl+X).
+Then restart the SSH service.
+
+`systemctl restart ssh`
+
+Deny the default port (22)
+
+`ufw delete allow ssh`
+
+Test the secure connection
+
+`ssh -p 2222 login-user@server-ip`
+
+To verify that password login is disabled: Try connecting without your SSH key. It should fail.
+
+
+## 3.3 HTTPS/SSL Cert
+
+To use Auth0 in a dev/prod environment, HTTPS (SSL) certificate is required.
+To configure an SSL certificate, it makes sense to have a fixed domain registered.
+
+Domain certificate setup with `certbot`
+> Certificate location
+> ssl_certificate /etc/letsencrypt/live/www.reprec.com/fullchain.pem;
+> ssl_certificate_key /etc/letsencrypt/live/www.reprec.com/privkey.pem;
+
+## 3.4 Install all required Tools/Packages
+
+Install PHP and required extensions for Laravel
+
+```bash
+sudo apt install -y php php-cli php-fpm php-pgsql php-mbstring php-xml php-curl php-zip php-bcmath
+```
+
+Install PostgreSQL & Configure Database
+
+```bash
+sudo apt install -y postgresql postgresql-contrib
+sudo systemctl enable postgresql
+sudo systemctl start postgresql
+```
+
+Create Database & User
+
+```bash
+sudo -u postgres psql
+```
+
+```sql
+CREATE DATABASE laravel_db;
+CREATE USER laravel_user WITH PASSWORD 'your-secure-password';
+GRANT ALL PRIVILEGES ON DATABASE laravel_db TO laravel_user;
+\q
+```
+
+Deploy Laravel and clone the git repo
+(get the .env from the local machine and update the database connection + the APP_ENV and APP_DEBUG variables)
+
+```bash
+cd /var/www
+git clone https://github.com/your-repo/your-laravel-app.git laravel-app
+cd laravel-app
+cp .env.example .env
+nano .env
+```
+
+```bash
+composer install --no-dev --optimize-autoloader
+php artisan key:generate
+php artisan migrate --force
+sudo chown -R www-data:www-data /var/www/laravel-app
+sudo chmod -R 775 /var/www/laravel-app/storage /var/www/laravel-app/bootstrap/cache
+```
+
+Configure Nginx
+
+Create an basic Nginx config file for Laravel and enter the default configuration, then enable the site and restart Nginx
+
+```bash
+sudo nano /etc/nginx/sites-available/laravel
+```
+
+```bash
+sudo ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl restart nginx
+```
+
+Build Frontend Assets (Vite)
+
+Ensure Node.js & NPM are installed, then install all dependencies and build assets
+
+```bash
+cd /var/www/laravel-app
+npm install
+npm run build
+```
+
+Set permissions
+
+```bash
+sudo chown -R www-data:www-data /var/www/laravel-app
+sudo chmod -R 775 /var/www/laravel-app/public/build
+```
+
+## 3.5 Useful Commands
+
+| Task    | Command |
+| -------- | ------- |
+| Restart Nginx  | sudo systemctl restart nginx |
+| Restart PostgreSQL | sudo systemctl restart postgresql |
+| Restart PHP-FPM | sudo systemctl restart php-fpm |
+| Check Nginx Logs | sudo tail -f /var/log/nginx/error.log |
+| Check PostgreSQL Logs | sudo tail -f /var/log/postgresql/postgresql.log |
+| Renew SSL Cert | sudo certbot renew |
+| Clear Laravel caches | php artisan optimize:clear && php artisan config:cache && php artisan view:cache |
+
