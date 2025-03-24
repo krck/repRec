@@ -9,13 +9,13 @@
             <tbody>
                 @foreach($exerciseCategories as $exerciseCategory)
                     <tr class="hover:bg-base-100">
-                        <td class="w-[70%]">
+                        <td class="w-[60%]">
                             <div class="my-1">
                                 <div class="font-bold">{{ $exerciseCategory->name }}</div>
                                 <div class="text-xs">{{ $exerciseCategory->description }}</div>
                             </div>
                         </td>
-                        <td class="w-[30%] text-right">
+                        <td class="w-[40%] text-right">
                             <div>
                                 <!-- Link to Edit -->
                                 <a href="{{ route('exercise-category.edit', $exerciseCategory) }}"

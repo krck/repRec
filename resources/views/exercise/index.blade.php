@@ -16,13 +16,13 @@
                             <tbody>
                                 @foreach(collect($exerciseGroup["exercises"])->sortBy('name') as $exercise)
                                     <tr class="hover:bg-base-100">
-                                        <td class="w-[70%]">
+                                        <td class="w-[60%] max-w-[60%]">
                                             <div class="my-1">
                                                 <div class="font-bold">{{ $exercise->name }}</div>
                                                 <div class="text-xs">{{ $exercise->exercise_category->name }}</div>
                                             </div>
                                         </td>
-                                        <td class="w-[30%] text-right">
+                                        <td class="w-[40%] text-right">
                                             <div>
                                                 <!-- Link to Edit -->
                                                 <a href="{{ route('exercise.edit', $exercise) }}"
