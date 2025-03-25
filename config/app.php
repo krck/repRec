@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // Version (change in .env)
+    'version' => '0.1.0', // env('APP_VERSION', '0.1.0'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -65,7 +68,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------

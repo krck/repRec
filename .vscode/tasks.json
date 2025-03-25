@@ -1,0 +1,38 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Serve Laravel",
+            "type": "shell",
+            "command": "php artisan serve",
+            "dependsOn": [
+                "Run vite"
+            ],
+            "problemMatcher": []
+        },
+        {
+            // Recompile CSS and JS
+            "label": "Run vite",
+            "type": "shell",
+            "command": "npm run build",
+            "dependsOn": [
+                "Cleanup Laravel"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Cleanup Laravel",
+            "type": "shell",
+            "command": "php artisan config:clear && php artisan cache:clear && php artisan route:clear && composer dump-autoload && php artisan optimize",
+            "problemMatcher": []
+            // # Clear caches
+            // php artisan config:clear
+            // php artisan route:clear
+            // php artisan view:clear
+            // php artisan cache:clear
+            // # Rebuild caches
+            // php artisan config:cache
+            // php artisan route:cache
+        }
+    ]
+}
