@@ -3,6 +3,19 @@
         Plan Workouts
     </x-slot:heading>
 
+    @pushOnce('js_after')
+    <script src="/js/components/dlg-global.js"></script>
+    <script type="module" nonce="{{ $cspNonce }}">
+        // Delete buttons with "unique" class for identification - add click event listener here, for CSP
+        document.querySelectorAll('.unique-delete-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var deleteUrl = '{{ route('plan-workout.destroy', ':id') }}'.replace(':id', this.getAttribute('data-id'));
+                openDeleteModal(deleteUrl);
+            });
+        });
+    </script>
+    @endpushOnce
+
     <!-- Slot Content: This is the part that scrolls (Table element) -->
     <div class="slot-content">
         @if(!$planWorkouts->count())
@@ -51,8 +64,8 @@
                                         </li>
                                         <li>
                                             <!-- Delete Button calling modal dialog -->
-                                            <button type="button" class="btn btn-ghost flex justify-start"
-                                                onclick="openDeleteModal('{{ route('plan-workout.destroy', $planWorkout->id) }}')">
+                                            <button type="button" class="btn btn-ghost flex justify-start unique-delete-btn"
+                                                data-id="{{ $planWorkout->id }}">
                                                 <x-icon img="delete" class="text-error" />Delete
                                             </button>
                                         </li>

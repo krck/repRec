@@ -4,7 +4,7 @@
     </x-slot:heading>
 
     @pushOnce('js_after')
-        <script type="module">
+        <script type="module" nonce="{{ $cspNonce }}">
             $(document).ready(function () {
                 $('#exercise_category_id').on('change', function () {
                     var selectedCategory = $(this).val();

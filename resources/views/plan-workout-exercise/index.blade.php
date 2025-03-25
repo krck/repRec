@@ -17,7 +17,16 @@
     @endphp
 
     @pushOnce('js_after')
-        <script type="module">
+        <script src="/js/components/dlg-global.js"></script>
+        <script type="module" nonce="{{ $cspNonce }}">
+            // Delete buttons with "unique" class for identification - add click event listener here, for CSP
+            document.querySelectorAll('.unique-delete-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var deleteUrl = '{{ route('plan-workout-exercise.destroy', ':id') }}'.replace(':id', this.getAttribute('data-id'));
+                    openDeleteModal(deleteUrl);
+                });
+            });
+
             document.addEventListener('DOMContentLoaded', function () {
                 // Populate the exerciseData with the initial order of exercises
                 let exerciseData = [];
@@ -105,8 +114,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn btn-ghost flex justify-start"
-                                                onclick="openDeleteModal('{{ route('plan-workout-exercise.destroy', $planWorkoutExercise->id) }}')">
+                                            <button type="button" class="btn btn-ghost flex justify-start unique-delete-btn"
+                                                data-id="{{ $planWorkoutExercise->id }}">
                                                 <x-icon img="delete" class="text-error" />Delete
                                             </button>
                                         </li>

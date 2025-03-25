@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.main-nav {
+    height: 50px !important;
+    min-height: 40px !important;
+}
+
 /*
  * ----------------------------------------------------------
  * ----- GLOBAL SLOT Styles  (Blade template {{ slot }} -----

@@ -15,12 +15,11 @@
 
 <body class="h-full min-h-screen">
     <!-- Main Navbar -->
-    <div class="navbar sticky top-0 z-40 bg-neutral text-neutral-content flex justify-between items-center"
-        style="height: 50px !important; min-height: 40px !important;">
+    <div class="navbar main-nav sticky top-0 z-40 bg-neutral text-neutral-content flex justify-between items-center">
         <x-nav-link href="/">
             <div class="text-center">
                 <h1 class="text-lg font-bold">RepRec</h1>
-                <p class="text-xs text-gray-500" style="margin-top: -5px !important;">
+                <p class="text-xs text-gray-500 -mt-[5px]">
                     vers. {{ config('app.version') }}
                 </p>
             </div>
@@ -103,8 +102,7 @@
                             <!-- Logout Button -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <a class="btn btn-accent" :href="route('logout')"
-                                    onclick="event.preventDefault();  this.closest('form').submit();">
+                                <a id="logoutButton" class="btn btn-accent" :href="route('logout')">
                                     {{ __('Log Out') }}
                                 </a>
                             </form>
@@ -126,25 +124,16 @@
     </div>
 
     <!-- --------------------------------------------------------------------------------
-     --------------------------- GLOBAL JAVASCRIPT FUNCTIONS ----------------------------
-     -------------------------------------------------------------------------------- -->
-    <script>
-        // Component: x-dlg-confirm-delete
-        // Function: Call the modal delete dialog with a dynamic delete route
-        function openDeleteModal(deleteRoute) {
-            const deleteForm = document.getElementById('delete-modal-form');
-            deleteForm.action = deleteRoute;
-
-            // Show the modal
-            const modal = document.getElementById('delete-modal');
-            modal.showModal();
-        }
-    </script>
-    <!-- --------------------------------------------------------------------------------
      ---------------------------- LOCAL JAVASCRIPT FUNCTIONS ----------------------------
      ------- JavaScript code from child-views added with push / pushOnce goes here ------
      -------------------------------------------------------------------------------- -->
     @stack('js_after')
+    <script type="module" nonce="{{ $cspNonce }}">
+        document.getElementById('logoutButton').addEventListener('click', function () {
+            event.preventDefault();
+            this.closest('form').submit();
+        });
+    </script>
 </body>
 
 </html>

@@ -2,140 +2,7 @@
 @props(['name', 'value' => null])
 
 @pushOnce('js_after')
-    <script>
-        function weightliftingInput(initialData = null) {
-            return {
-                fixedType: 'reps',
-                warmupSets: [],
-                feederSets: [],
-                workingSets: [],
-                intensitySets: [],
-                selectedTags: [],
-                // Result string json
-                exerciseDefinitionJson: '',
-                // Hardcoded Tags
-                availableTags: ['Strength', 'Hypertrophy', 'Endurance', 'md:Activation', 'md:Explosion', 'md:Pump', 'md:Stretch',],
-
-                // Generate a json result string based on the inputs
-                // - Update called manually on button presses - add/remove
-                // - Update called automatically on input changes - watch
-                init() {
-                    // In case its "edit" and there is initial data - prefill the values
-                    if (initialData) {
-                        // If string - parse it, else use the object
-                        let editData = typeof initialData === 'string' ? JSON.parse(initialData) : initialData;
-                        this.fixedType = editData.fixedType || 'reps';
-                        this.warmupSets = editData.warmupSets || [];
-                        this.feederSets = editData.feederSets || [];
-                        this.workingSets = editData.workingSets || [];
-                        this.intensitySets = editData.intensitySets || [];
-                        this.selectedTags = editData.tags || [];
-                    }
-                    this.$watch('warmupSets', () => this.updateExerciseDefinitionJson());
-                    this.$watch('feederSets', () => this.updateExerciseDefinitionJson());
-                    this.$watch('workingSets', () => this.updateExerciseDefinitionJson());
-                    this.$watch('intensitySets', () => this.updateExerciseDefinitionJson());
-                    this.$watch('selectedTags', () => this.updateExerciseDefinitionJson());
-                    this.$watch('fixedType', () => this.updateExerciseDefinitionJson());
-                    // Generate an empty string on init
-                    this.updateExerciseDefinitionJson();
-                },
-                updateExerciseDefinitionJson() {
-                    this.exerciseDefinitionJson = JSON.stringify({
-                        warmupSets: this.warmupSets,
-                        feederSets: this.feederSets,
-                        workingSets: this.workingSets,
-                        intensitySets: this.intensitySets,
-                        tags: this.selectedTags
-                    });
-                },
-
-                // Function to toggle tags (add or remove)
-                toggleTag(tag) {
-                    if (this.selectedTags.includes(tag)) {
-                        this.selectedTags = this.selectedTags.filter(t => t !== tag);
-                    } else {
-                        this.selectedTags.push(tag);
-                    }
-                    this.updateExerciseDefinitionJson();
-                },
-                // Function to get the appropriate class for a tag
-                getTagClass(tag) {
-                    return this.selectedTags.includes(tag)
-                        ? 'bg-blue-500 text-white'  // Selected tag
-                        : 'bg-gray-200 text-gray-700';  // Unselected tag
-                },
-
-                // Warmup Set
-                addWarmupSet() {
-                    if (this.warmupSets.length < 5) {
-                        this.warmupSets.push({
-                            reps: 15, // Default Reps value
-                            weight: '',
-                            rpe_rir: 'rpe',
-                            rpe_rir_value: 7
-                        });
-                        this.updateExerciseDefinitionJson();
-                    }
-                },
-                removeWarmupSet(index) {
-                    this.warmupSets.splice(index, 1);
-                    this.updateExerciseDefinitionJson();
-                },
-
-                // Feeder Set
-                addFeederSet() {
-                    if (this.feederSets.length < 3) {
-                        this.feederSets.push({
-                            reps: 10, // Default Reps value
-                            weight: '',
-                            rpe_rir: 'rpe',
-                            rpe_rir_value: 8
-                        });
-                        this.updateExerciseDefinitionJson();
-                    }
-                },
-                removeFeederSet(index) {
-                    this.feederSets.splice(index, 1);
-                    this.updateExerciseDefinitionJson();
-                },
-
-                // Working Set
-                addWorkingSet() {
-                    if (this.workingSets.length < 5) {
-                        this.workingSets.push({
-                            reps: 10, // Default Reps value
-                            weight: '',
-                            rpe_rir: 'rpe',
-                            rpe_rir_value: 10
-                        });
-                        this.updateExerciseDefinitionJson();
-                    }
-                },
-                removeWorkingSet(index) {
-                    this.workingSets.splice(index, 1);
-                    this.updateExerciseDefinitionJson();
-                },
-
-                // Intensity Set
-                addIntensitySet() {
-                    if (this.intensitySets.length < 3) {
-                        this.intensitySets.push({
-                            reps: '',
-                            weight: '',
-                            intensity_type: 'dropset', // Default intensity technique
-                        });
-                        this.updateExerciseDefinitionJson();
-                    }
-                },
-                removeIntensitySet(index) {
-                    this.intensitySets.splice(index, 1);
-                    this.updateExerciseDefinitionJson();
-                },
-
-            };
-        }
-    </script>
+    <script src="/js/components/exercise-input-weightlifting.js"></script>
 @endPushOnce
 
 <div class="bg-base-100 shadow-md rounded-md m-1 p-2 border-2 border-solid border-gray-300">
@@ -164,7 +31,7 @@
         </div>
 
         <!-- Warmup Sets -->
-        <div class="divider" style="margin: 4px !important;">Warmup</div>
+        <div class="divider m-[4px]">Warmup</div>
         <div class="mb-2">
             <template x-for="(warmupSet, index) in warmupSets" :key="index">
                 <div class="flex items-center mt-2">
@@ -188,7 +55,7 @@
         </div>
 
         <!-- Feeder Sets -->
-        <div class="divider" style="margin: 4px !important;">Feeder</div>
+        <div class="divider m-[4px]">Feeder</div>
         <div class="mb-2">
             <template x-for="(feederSet, index) in feederSets" :key="index">
                 <div class="flex items-center mt-2">
@@ -212,7 +79,7 @@
         </div>
 
         <!-- Working Sets -->
-        <div class="divider" style="margin: 4px !important;">Working</div>
+        <div class="divider m-[4px]">Working</div>
         <div class="mb-2">
             <template x-for="(workingSet, index) in workingSets" :key="index">
                 <div class="flex items-center mt-2">
@@ -236,7 +103,7 @@
         </div>
 
         <!-- Additional Intensity -->
-        <div class="divider" style="margin: 4px !important;">Additional Intensity</div>
+        <div class="divider m-[4px]">Additional Intensity</div>
         <div class="mb-2">
             <template x-for="(intensitySet, index) in intensitySets" :key="index">
                 <div class="flex items-center mt-2">
@@ -261,7 +128,7 @@
         </div>
 
         <!-- Tags -->
-        <div class="divider" style="margin: 4px !important;">Tags</div>
+        <div class="divider m-[4px]">Tags</div>
         <div class="m-2">
             <div class="flex flex-wrap gap-2">
                 <template x-for="(tag, index) in availableTags" :key="index">

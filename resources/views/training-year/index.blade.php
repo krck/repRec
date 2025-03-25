@@ -19,7 +19,7 @@
         }
     @endphp
     @pushOnce('js_after')
-        <script type="module">
+        <script type="module" nonce="{{ $cspNonce }}">
             $(document).ready(function () {
                 $('#yearSelect').change(function () {
                     var selectedYear = $(this).val();
