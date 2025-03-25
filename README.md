@@ -2,6 +2,7 @@
 
 # Table of Contents
 
+- [0 TODO](#0-todo)
 - [1 About](#1-about)
 - [2 Local Setup](#2-local-setup)
 - [3 Server Setup](#3-server-setup)
@@ -15,7 +16,15 @@
     - [3.4 Install all required Tools/Packages](#34-install-all-required-toolspackages)
     - [3.5 Useful Commands](#35-useful-commands)
 
+# 0 TODO
 
+- [x] Version 0.0.1 - Initial Setup
+- [x] Version 0.1.0 - Administration and (Workout) Planning Features
+- [ ] Version 0.2.0 - Training Features (Training Year, Week, Day)
+- [ ] Version 0.3.0 - Plan Sharing, Notification and Email Features
+- [ ] Version 0.4.0 - Training Progress and User Profile/Settings
+- [ ] Version 0.5.0 - Final Polishing, Fixes, QoL Improvements
+- [ ] Version 1.0.0 - GO LIVE
 
 # 1 About
 ...
