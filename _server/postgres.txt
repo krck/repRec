@@ -1,0 +1,7 @@
+
+Add the current workstation IP address to the whitelist - Replace/remove old ones!
+Example: 93.213.9.123/32  md5 (for a single IP address with password authentication)
+> nano /etc/postgresql/15/main/pg_hba.conf
+
+Restart the Service
+> sudo systemctl reload postgresql
